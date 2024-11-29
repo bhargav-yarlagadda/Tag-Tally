@@ -1,6 +1,8 @@
 'use client';
 import React, { useState } from 'react';
 import Image from 'next/image';
+import { loadavg } from 'os';
+import { scrapeAndStoreProduct } from '@/lib/actions';
 const isValidAmazonProductURL = (url: string) => {
   try {
     const parsedURL = new URL(url);
@@ -42,20 +44,26 @@ const Modal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) =>
 const SearchBar = () => {
   const [userUrl, setUserUrl] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const [loading,setLoading] = useState(false)
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const parsedUrl = e.target.value;
     setUserUrl(parsedUrl);
   };
 
-  const handleSearch = (e:any) => {
+  const handleSearch = async (e:any) => {
     e.preventDefault();
     const isValid = isValidAmazonProductURL(userUrl);
     if (!isValid) {
       setIsModalOpen(true);
       return;
     }
-    alert('Valid URL entered');
+    try{
+      setLoading(true)
+      const product = await scrapeAndStoreProduct(userUrl)
+      }catch(e){
+    } finally{
+      setLoading(false)
+    }
   };
 
   const closeModal = () => {
@@ -79,9 +87,10 @@ const SearchBar = () => {
         />
         <button
           type="submit"
-          className="bg-green-600 rounded-md px-3 py-2 text-teal-200 hover:cursor-pointer"
+          disabled={userUrl === ''}
+          className={`${userUrl === '' ? 'bg-gray-600' :"bg-green-600 "}  rounded-md px-3 py-2 text-teal-200 hover:cursor-pointer`}
         >
-          Search
+          {loading ? "searching..." :'search'}
         </button>
       </form>
       <Image 

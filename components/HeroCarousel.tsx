@@ -8,7 +8,7 @@ const heroImages = [
   { imgUrl: '/assets/images/hero-2.svg', alt: 'bag' },
   { imgUrl: '/assets/images/hero-3.svg', alt: 'lamp' },
   { imgUrl: '/assets/images/hero-4.svg', alt: 'air fryer' },
-  { imgUrl: '/assets/images/hero-5.svg', alt: 'chair' },
+  { imgUrl: '/assets/images/hero-1.svg', alt: 'watch' },
 ];
 
 const HeroCarousel = () => {
@@ -34,7 +34,7 @@ const HeroCarousel = () => {
     <div className="relative w-full max-w-4xl mx-auto overflow-hidden">
       {/* Carousel Images */}
       <div
-        className="flex transition-transform duration-700  ease-in-out"
+        className="flex transition-transform duration-700 ease-in-out"
         style={{ transform: `translateX(-${currentIndex * 100}%)` }}
       >
         {heroImages.map((image, index) => (
@@ -45,9 +45,10 @@ const HeroCarousel = () => {
             <Image
               src={image.imgUrl}
               alt={image.alt}
-              width={484}
-              height={484}
-              className="object-contain"
+              width={0}
+              height={0}
+              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              className="w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] object-contain"
             />
           </div>
         ))}
@@ -81,9 +82,6 @@ const HeroCarousel = () => {
           ></button>
         ))}
       </div>
-
-      {/* Decorative Arrow */}
-      
     </div>
   );
 };
