@@ -60,6 +60,7 @@ const SearchBar = () => {
     try{
       setLoading(true)
       const product = await scrapeAndStoreProduct(userUrl)
+      setUserUrl('')
       }catch(e){
     } finally{
       setLoading(false)
