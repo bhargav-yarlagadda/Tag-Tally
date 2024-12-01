@@ -97,7 +97,7 @@ const Page = async ({ params }: any) => {
                 height={16}
               />
               <p className="text-primary font-semibold">
-                {product.stars || "25"}
+                {product.stars || "27"}
               </p>
             </div>
             <div className="flex items-center gap-2">
