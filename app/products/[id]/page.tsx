@@ -6,7 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { formatNumber } from "@/lib/utils/utils";
 import PriceInfoCard from "@/components/PriceInfoCard";
-
+import placeholder from '../../../public/assets/images/placehoder.jpeg'
 export const metadata: Metadata = {
   title: "Tag Tally | Analytics",
 };
@@ -23,10 +23,10 @@ const Page = async ({ params }: any) => {
         {/* Product Image */}
         <div className="flex justify-center">
           <Image
-            src={product.image}
+            src={product.image || placeholder }
             alt={product.title}
             width={580}
-            height={400}
+            height={350}
             className="rounded-lg shadow-md object-cover max-w-full h-auto"
           />
         </div>

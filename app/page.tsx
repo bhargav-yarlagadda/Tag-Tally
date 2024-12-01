@@ -49,7 +49,7 @@ const Home = async () => {
               <span className="text-primary"> Tag Tally</span>
             </h1>
 
-            <p className="mt-6">
+            <p className="mt-6 mb-12">
               Powerful, self-serve product and growth analytics to help you
               convert, engage, and retain more.
             </p>

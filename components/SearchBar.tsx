@@ -1,8 +1,9 @@
 'use client';
 import React, { useState } from 'react';
-import Image from 'next/image';
-import { loadavg } from 'os';
+
+import { useRouter } from 'next/navigation';
 import { scrapeAndStoreProduct } from '@/lib/actions';
+
 const isValidAmazonProductURL = (url: string) => {
   try {
     const parsedURL = new URL(url);
@@ -32,7 +33,6 @@ const Modal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) =>
         <button
           className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700"
           onClick={onClose}
-          
         >
           Close
         </button>
@@ -41,29 +41,36 @@ const Modal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) =>
   );
 };
 
-const SearchBar = () => {
+interface SearchBarProps {
+  callback?: () => void; // Optional onClick function to modify state
+}
+
+const SearchBar: React.FC<SearchBarProps> = ({ callback }) => {
+  const router = useRouter();
   const [userUrl, setUserUrl] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [loading,setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
+
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const parsedUrl = e.target.value;
-    setUserUrl(parsedUrl);
+    setUserUrl(e.target.value);
   };
 
-  const handleSearch = async (e:any) => {
+  const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const isValid = isValidAmazonProductURL(userUrl);
     if (!isValid) {
       setIsModalOpen(true);
       return;
     }
-    try{
-      setLoading(true)
-      const product = await scrapeAndStoreProduct(userUrl)
-      setUserUrl('')
-      }catch(e){
-    } finally{
-      setLoading(false)
+    try {
+      setLoading(true);
+      const productId = await scrapeAndStoreProduct(userUrl);
+      setUserUrl('');
+      router.push(`/products/${productId}`);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -78,7 +85,11 @@ const SearchBar = () => {
       <Modal isOpen={isModalOpen} onClose={closeModal} />
 
       {/* Search Bar */}
-      <form className="flex flex-wrap gap-4 mt-12" onSubmit={(e)=>{handleSearch(e)}}>
+      <form className="flex flex-wrap gap-4 " onSubmit={async (e)=>{
+        const _ = await handleSearch(e)
+        !!callback && callback()
+
+      }}>
         <input
           type="text"
           onChange={handleInput}
@@ -89,19 +100,16 @@ const SearchBar = () => {
         <button
           type="submit"
           disabled={userUrl === ''}
-          className={`${userUrl === '' ? 'bg-gray-600' :"bg-green-600 "}  rounded-md px-3 py-2 text-teal-200 hover:cursor-pointer`}
+          className={`${userUrl === '' ? 'bg-gray-600' : 'bg-green-600'} rounded-md px-3 py-2 text-teal-200 hover:cursor-pointer`}
         >
-          {loading ? "searching..." :'search'}
+          {loading ? 'Searching...' : 'Search'}
         </button>
+      {callback && <button className=' rounded-md px-3 py-2 bg-red-700 text-teal-200 hover:cursor-pointer' onClick={callback}>Close</button>}
       </form>
-      <Image 
-  src="assets/icons/hand-drawn-arrow.svg"
-  alt="arrow"
-  width={175}
-  height={175}
-  className=" hidden lg:block md:absolute left-[40%] -bottom-[18%] max-xl:left-[75%]  max-xl:right-10 max-xl:top-[68%] max-xl:-translate-y-[30px] max-xl:-rotate-45"
-/>
 
+      {/* Optional Image */}
+
+      {/* Close Button (if `callback` is provided) */}
     </div>
   );
 };
