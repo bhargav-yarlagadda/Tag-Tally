@@ -117,6 +117,9 @@ const Page = async ({ params }: any) => {
             <span className="text-green-600 font-semibold">93%</span> of buyers
             recommend this product.
           </p>
+          <button className="w-3/4 rounded-3xl text-white bg-green-600 text-lg py-2 " >
+                Track this product
+          </button>
         </div>
       </div>
 
