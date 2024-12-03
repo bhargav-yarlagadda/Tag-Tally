@@ -4,6 +4,8 @@ This project is a powerful e-commerce product scraping site built using Next.js 
 
 ---
 
+
+  
 ## 🚀 Features
 - **Price Drop Alerts**: Notify users when a product's price decreases.
 - **Out-of-Stock Alerts**: Alert competitors when a product goes out of stock.
