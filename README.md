@@ -1,9 +1,13 @@
-# E-Commerce Product Scraping Site
+# E-Commerce Product Scraping and Price Tracker
 
 This project is a powerful e-commerce product scraping site built using Next.js and Bright Data's Web Unlocker. It is designed to assist users in making informed purchasing decisions by tracking product prices and availability. Users are notified when product prices drop, and competitors are alerted when products go out of stock. The entire process is automated and managed using cron jobs.
 
+
+
 ---
 
+
+  
 ## 🚀 Features
 - **Price Drop Alerts**: Notify users when a product's price decreases.
 - **Out-of-Stock Alerts**: Alert competitors when a product goes out of stock.
